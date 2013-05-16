@@ -1,0 +1,16 @@
+PATH
+  remote: .
+  specs:
+    knife-reporting (0.1)
+      mixlib-cli (>= 1.2.2)
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    mixlib-cli (1.3.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  knife-reporting!
