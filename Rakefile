@@ -1,16 +1,13 @@
 require 'bundler'
 require 'rubygems'
-require 'rspec/core/rake_task'
+# Workaround for rake 10.0.4/Ruby 1.9.2p290 rdoc collision
+# https://github.com/jimweirich/rake/issues/157
+gem 'rdoc', ">= 2.4.2"
 require 'rdoc/task'
 
 Bundler::GemHelper.install_tasks
 
-task :default => :spec
-
-desc "Run specs"
-RSpec::Core::RakeTask.new(:spec) do |spec|
-  spec.pattern = 'spec/**/*_spec.rb'
-end
+task :default => :install
 
 gem_spec = eval(File.read("knife-reporting.gemspec"))
 
