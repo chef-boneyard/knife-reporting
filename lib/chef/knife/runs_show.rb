@@ -1,7 +1,7 @@
 class Chef
   class Knife
     class RunsShow < Chef::Knife
-      banner "knife runs show <node name> <run id>"
+      banner "knife runs show <node name> [<run id>]"
 
       PROTOCOL_VERSION = '0.1.0'
       HEADERS = {'X-Ops-Reporting-Protocol-Version' => PROTOCOL_VERSION}
