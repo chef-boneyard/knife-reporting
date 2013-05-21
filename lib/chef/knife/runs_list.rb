@@ -38,8 +38,7 @@ class Chef
         runs = @rest.get_rest( "reports/nodes/#{node_name}/runs", false, HEADERS )
 
         runs["run_history"].map do |run|
-          # For some reason we don't return a run_id so we have to strip it from the uri
-          { :run_id => run["uri"].split("/").last,
+          { :run_id => run["run_id"],
             :node_name => run["node_name"],
             :status => run["status"],
             :start_time => run["start_time"] }
