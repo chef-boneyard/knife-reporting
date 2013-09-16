@@ -5,6 +5,8 @@ class Chef
 
       PROTOCOL_VERSION = '0.1.0'
       HEADERS = {'X-Ops-Reporting-Protocol-Version' => PROTOCOL_VERSION}
+      SECONDS_IN_24HOURS = 86400
+
 
       def run
         rest = Chef::REST.new(Chef::Config[:chef_server_url])
@@ -17,10 +19,20 @@ class Chef
           exit 1
         end
 
-        runs = rest.get_rest( "reports/nodes/#{node_name}/runs/#{run_id}", false, HEADERS )
+        start_time, end_time = last_24hours_time_window()
+        query_string = "reports/nodes/#{node_name}/runs/#{run_id}?from=#{start_time}&until=#{end_time}"
+        runs = rest.get(query_string, false, HEADERS)
 
         output(runs)
       end
+
+      def last_24hours_time_window()
+        # Time is calculated as a unix timestamp
+        end_time = Time.now.to_i
+        start_time = end_time - SECONDS_IN_24HOURS
+        return start_time, end_time
+      end
+
     end
   end
 end
