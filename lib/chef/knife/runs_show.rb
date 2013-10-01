@@ -19,19 +19,19 @@ class Chef
       SECONDS_IN_3MONTHS = 7889230
 
       option :start_time,
-        :long => '--start_time MM-DD-YYYY',
+        :long => '--starttime MM-DD-YYYY',
         :short => '-s MM-DD-YYYY',
         :required => false,
         :description => 'Find runs with a start time great than or equal to the date provided. If the -u option is provided unix timestamps can be given instead.'
 
       option :end_time,
-        :long => '--end_time MM-DD-YYYY',
+        :long => '--endtime MM-DD-YYYY',
         :short => '-e MM-DD-YYYY',
         :required => false,
         :description => 'Find runs with an end time less than or equal to the date provided. If the -u option is provided unix timestamps can be given instead.'
 
       option :unix_timestamps,
-        :long => '--unix_timestamps',
+        :long => '--unixtimestamps',
         :short => '-u',
         :required => false,
         :boolean => true,
@@ -86,7 +86,7 @@ class Chef
         return start_time, end_time
       end
 
-      def check_start_and_end_time_provided()
+      def check_start_and_end_times_provided()
         if config[:start_time] && !config[:end_time]
           ui.error("The start_time option was provided, but the end_time option was not. If one is provided, the other is required.")
           exit 1
@@ -102,13 +102,14 @@ class Chef
           end_time = config[:end_time].to_i
         else
           # Take user supplied input, assumes it is in a valid date format,
-          # convert to a time object, and then convert to a unix timestamp
-          # If the format isn't valid Time will throw an error
-          # The options suggest MM-DD-YYYY b/c that is consistent with the
-          # reporting UI, but it isn't actually required for this to work
+          # convert to a date object to ensure we have the proper date format for
+          # passing to the time object (but converting is not a validation step,
+          # so bad user input will still be bad)
+          # then convert to a time object, and then convert to a unix timestamp
+          # An error could potentially be thrown if the conversions don't work
           # Question: will this work on windows?
-          start_time = Time.parse(config[:start_time]).to_i
-          end_time = Time.parse(config[:end_time]).to_i
+          start_time = Time.parse(Date.strptime(config[:start_time], '%m-%d-%Y').to_s).to_i
+          end_time = Time.parse(Date.strptime(config[:end_time], '%m-%d-%Y').to_s).to_i
         end
 
         return start_time, end_time
@@ -117,7 +118,7 @@ class Chef
       def check_3month_window(start_time, end_time)
         # start_time and end_time are unix timestamps
         if (end_time - start_time) > SECONDS_IN_3MONTHS
-          ui.error("Requesting information for more than three months at a time is disallowed. Please try a smaller timeframe")
+          ui.error("Requesting information for more than three months at a time is disallowed. Please try a smaller timeframe.")
           exit 1
         end
       end
