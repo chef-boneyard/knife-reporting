@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
   s.has_rdoc = false
   s.extra_rdoc_files = ["README.md", "LICENSE"]
-  s.summary = "Knife plugin for OpsCode Reporting"
+  s.summary = "Knife plugin for Opscode Reporting"
   s.description = s.summary
   s.author = "Matthew Peck"
   s.email = "matthew@opscode.com"
