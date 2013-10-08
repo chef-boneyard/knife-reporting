@@ -107,7 +107,8 @@ class Chef
           # so bad user input will still be bad)
           # then convert to a time object, and then convert to a unix timestamp
           # An error could potentially be thrown if the conversions don't work
-          # Question: will this work on windows?
+          # This does work on windows - to_i on time even on windows still returns a unix timestamp
+          # Verified on ruby 1.9.3 on a windows 2000 ami on aws
           start_time = Time.parse(Date.strptime(config[:start_time], '%m-%d-%Y').to_s).to_i
           end_time = Time.parse(Date.strptime(config[:end_time], '%m-%d-%Y').to_s).to_i
         end
