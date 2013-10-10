@@ -1,8 +1,11 @@
 module ReportingHelpers
 
-  SECONDS_IN_24HOURS = 86400
+  # Need the unless guard b/c this code is dynamically loaded
+  # and can result in ruby warnings if it attempts to define the
+  # constant again
+  SECONDS_IN_24HOURS = 86400 unless const_defined?(:SECONDS_IN_24HOURS)
   # Approximate, b/c of course the length of a month can vary
-  SECONDS_IN_3MONTHS = 7889230
+  SECONDS_IN_3MONTHS = 7889230 unless const_defined?(:SECONDS_IN_3MONTHS)
 
   def apply_time_args()
     if config[:start_time] && config[:end_time]
