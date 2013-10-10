@@ -11,6 +11,8 @@ class Chef
         require 'chef/knife/reporting_helpers'
       end
 
+      include ReportingHelpers
+
       banner "knife runs list [<node name>]"
 
       PROTOCOL_VERSION = '0.1.0'
@@ -57,7 +59,8 @@ class Chef
       private
 
       def org_history(start_time, end_time)
-        runs = @rest.get_rest("reports/org/runs", false,  HEADERS)
+        query_string = "reports/org/runs?from=#{start_time}&until=#{end_time}"
+        runs = @rest.get_rest(query_string, false,  HEADERS)
 
         runs["run_history"].map do |run|
           { :run_id => run["run_id"],
@@ -68,7 +71,8 @@ class Chef
       end
 
       def node_history(node_name, start_time, end_time)
-        runs = @rest.get_rest( "reports/nodes/#{node_name}/runs", false, HEADERS )
+        query_string = "reports/nodes/#{node_name}/runs?from=#{start_time}&until=#{end_time}"
+        runs = @rest.get_rest(query_string, false, HEADERS)
 
         runs["run_history"].map do |run|
           { :run_id => run["run_id"],
