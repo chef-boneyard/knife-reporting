@@ -20,3 +20,17 @@ it with both node name and run id will return that specific run.
 * `knife runs show bobsnode` - returns a detailed list of all runs within that node
 * `knife runs show bobsnode 30077269-59d0-4283-81f6-8d23cbed3a7a` - returns details
 about that specific node run
+
+All commands default to returning the last 24 hours worth of data.
+
+If more than 24 hours worth of data is desired, or if a different time frame
+is desired, the --startime or -s option and --endtime or -e option can be given.
+They specify a starting and ending time to returns runs from. They take an
+argument in the date form of MM-DD-YYYY. If one of these options is specified
+the other must also be specified.
+
+The start and end time can be specified as a unix timestamp if the
+--unixtimestamps or -u option is also specified.
+
+Note that no more than three months worth of data can be requested at a time.
+If more than three months of data is asked for an error will be returned.
