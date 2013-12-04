@@ -58,7 +58,7 @@ class Chef
           query_string = "reports/nodes/#{node_name}/runs?from=#{start_time}&until=#{end_time}"
         else
           # If run_id is not nil, then we want a specific run and start and end times are irrelevent
-          query_string = "reports/nodes/#{node_name}/runs/#{run_id}"
+          query_string = "reports/org/runs/#{run_id}"
         end
 
         runs = rest.get(query_string, false, HEADERS)
