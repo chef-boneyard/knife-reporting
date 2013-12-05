@@ -41,11 +41,12 @@ class Chef
         rest = Chef::REST.new(Chef::Config[:chef_server_url])
 
         run_id = name_args[0]
+
         if run_id.nil?
           show_usage
           exit 1
-        elsif run_id !=~ Regexp.new("[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")
-          puts "Run ID should be a Chef Client Run ID, e.g: 12345678-abcd-90ef-1a2b3c4d5e6f"
+        elsif is_not_uuid(run_id)
+          puts "Run ID should be a Chef Client Run ID, e.g: 11111111-1111-1111-1111-111111111111"
           exit 1
         end
 

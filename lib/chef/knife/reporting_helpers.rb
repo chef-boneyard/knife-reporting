@@ -7,6 +7,14 @@ module ReportingHelpers
   # Approximate, b/c of course the length of a month can vary
   SECONDS_IN_3MONTHS = 7889230 unless const_defined?(:SECONDS_IN_3MONTHS)
 
+  def is_not_uuid(run_id)
+    if run_id =~ /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/
+      return false
+    else
+      return true
+    end
+  end
+
   def apply_time_args()
     if config[:start_time] && config[:end_time]
       start_time, end_time = convert_to_unix_timestamps()
