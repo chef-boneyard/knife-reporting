@@ -37,6 +37,12 @@ class Chef
         :boolean => true,
         :description => 'Indicates start and end times are given as unix time stamps and not date formats.'
 
+      option :rows,
+        :long => '--rows N',
+        :short => '-r N',
+        :required => false,
+        :description => 'Specifies the rows to be returned from the database. The default is 10.'
+
       def run
         @rest = Chef::REST.new(Chef::Config[:chef_server_url])
 
@@ -46,20 +52,31 @@ class Chef
         start_time, end_time = apply_time_args()
         check_3month_window(start_time, end_time)
 
-        if node_name
-          runs = node_history(node_name, start_time, end_time)
-        else
-          runs = org_history(start_time, end_time)
-        end
-
+        query_string = generate_query(start_time, end_time, node_name, config[:rows])
+        runs = history(query_string)
 
         output(runs)
       end
 
       private
 
-      def org_history(start_time, end_time)
-        query_string = "reports/org/runs?from=#{start_time}&until=#{end_time}"
+      def generate_query(start_time, end_time, node_name = nil, rows = nil)
+        if node_name
+          if rows
+            "reports/nodes/#{node_name}/runs?from=#{start_time}&until=#{end_time}&rows=#{rows}"
+          else
+            "reports/nodes/#{node_name}/runs?from=#{start_time}&until=#{end_time}"
+          end
+        else
+          if rows
+            "reports/org/runs?from=#{start_time}&until=#{end_time}&rows=#{rows}"
+          else
+            "reports/org/runs?from=#{start_time}&until=#{end_time}"
+          end
+        end
+      end
+
+      def history(query_string)
         runs = @rest.get_rest(query_string, false,  HEADERS)
 
         runs["run_history"].map do |run|
@@ -70,20 +87,7 @@ class Chef
         end
       end
 
-      def node_history(node_name, start_time, end_time)
-        query_string = "reports/nodes/#{node_name}/runs?from=#{start_time}&until=#{end_time}"
-        runs = @rest.get_rest(query_string, false, HEADERS)
-
-        runs["run_history"].map do |run|
-          { :run_id => run["run_id"],
-            :node_name => run["node_name"],
-            :status => run["status"],
-            :start_time => run["start_time"] }
-        end
-      end
-
-    end
   end
 end
-
+end
 
