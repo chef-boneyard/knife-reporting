@@ -12,16 +12,7 @@ optional node name parameter.
 * `knife runs list` - returns a list of all runs within the organization
 * `knife runs list bobsnode` - return a list of all runs on "bobsnode"
 
-`knife runs show` returns a detailed list of runs. It has two parameters
-node name and run id. run id is optional. Calling `knife runs show` with only
-a node name will return a detailed list of runs within that node. Calling
-it with both node name and run id will return that specific run.
-
-* `knife runs show bobsnode` - returns a detailed list of all runs within that node
-* `knife runs show bobsnode 30077269-59d0-4283-81f6-8d23cbed3a7a` - returns details
-about that specific node run
-
-All commands default to returning the last 24 hours worth of data.
+These commands default to returning the last 24 hours worth of data.
 
 If more than 24 hours worth of data is desired, or if a different time frame
 is desired, the --startime or -s option and --endtime or -e option can be given.
@@ -34,3 +25,11 @@ The start and end time can be specified as a unix timestamp if the
 
 Note that no more than three months worth of data can be requested at a time.
 If more than three months of data is asked for an error will be returned.
+
+User can also specify the number of rows that should be returned with
+the result. This parameter is optional and defaults to 10.
+
+`knife runs show` has one  parameter run id. It will return that specific run details.
+
+* `knife runs show bobsnode 30077269-59d0-4283-81f6-8d23cbed3a7a` - returns details
+about that specific node run
