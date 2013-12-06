@@ -45,7 +45,7 @@ class Chef
         if run_id.nil?
           show_usage
           exit 1
-        elsif is_not_uuid(run_id)
+        elsif uuid?(run_id)
           puts "Run ID should be a Chef Client Run ID, e.g: 11111111-1111-1111-1111-111111111111"
           exit 1
         end
