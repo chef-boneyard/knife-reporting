@@ -13,7 +13,7 @@ class Chef
 
       include ReportingHelpers
 
-      banner "knife runs show <node name> [<run id>]"
+      banner "knife runs show <run id>"
 
       PROTOCOL_VERSION = '0.1.0'
       HEADERS = {'X-Ops-Reporting-Protocol-Version' => PROTOCOL_VERSION}
@@ -40,26 +40,17 @@ class Chef
       def run
         rest = Chef::REST.new(Chef::Config[:chef_server_url])
 
-        node_name = name_args[0]
-        run_id = name_args[1]
+        run_id = name_args[0]
 
-        if node_name.nil?
+        if run_id.nil?
           show_usage
+          exit 1
+        elsif uuid?(run_id)
+          puts "Run ID should be a Chef Client Run ID, e.g: 11111111-1111-1111-1111-111111111111"
           exit 1
         end
 
-        if run_id.nil?
-          # If run_id is nil then we are hitting the nodes endpoint and requesting info about multiple runs
-          # start and end time options are relevant here
-
-          check_start_and_end_times_provided()
-          start_time, end_time = apply_time_args()
-          check_3month_window(start_time, end_time)
-          query_string = "reports/nodes/#{node_name}/runs?from=#{start_time}&until=#{end_time}"
-        else
-          # If run_id is not nil, then we want a specific run and start and end times are irrelevent
-          query_string = "reports/nodes/#{node_name}/runs/#{run_id}"
-        end
+        query_string = "reports/org/runs/#{run_id}"
 
         runs = rest.get(query_string, false, HEADERS)
 
