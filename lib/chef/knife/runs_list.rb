@@ -1,3 +1,6 @@
+
+require 'chef/reporting/knife_helpers'
+
 class Chef
   class Knife
     class RunsList < Chef::Knife
@@ -8,10 +11,9 @@ class Chef
         # modules be loaded.
         require 'time'
         require 'date'
-        require 'chef/knife/reporting_helpers'
       end
 
-      include ReportingHelpers
+      include Chef::Reporting::KnifeHelpers
 
       banner "knife runs list [<node name>]"
 
@@ -87,7 +89,7 @@ class Chef
         end
       end
 
+    end
   end
-end
 end
 
