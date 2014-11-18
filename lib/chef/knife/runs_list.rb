@@ -61,6 +61,11 @@ class Chef
         :required => false,
         :description => 'Specifies the rows to be returned from the database. The default is 10.'
 
+      option :status,
+        :long => '--status STATUS',
+        :required => false,
+        :description => 'Filters by run status (success, failure, or aborted).'
+
       def run
         @rest = Chef::REST.new(Chef::Config[:chef_server_url])
 
@@ -70,7 +75,8 @@ class Chef
         start_time, end_time = apply_time_args()
         check_3month_window(start_time, end_time)
 
-        query_string = generate_query(start_time, end_time, node_name, config[:rows])
+        query_string = generate_query(start_time, end_time, node_name, config[:rows],
+                                      config[:status])
         runs = history(query_string)
 
         output(runs)
@@ -78,20 +84,24 @@ class Chef
 
       private
 
-      def generate_query(start_time, end_time, node_name = nil, rows = nil)
+      def generate_query(start_time, end_time, node_name = nil, rows = nil, status = nil, env = nil)
+        query = '/reports'
         if node_name
-          if rows
-            "reports/nodes/#{node_name}/runs?from=#{start_time}&until=#{end_time}&rows=#{rows}"
-          else
-            "reports/nodes/#{node_name}/runs?from=#{start_time}&until=#{end_time}"
-          end
+          query += "/nodes/#{node_name}"
         else
-          if rows
-            "reports/org/runs?from=#{start_time}&until=#{end_time}&rows=#{rows}"
-          else
-            "reports/org/runs?from=#{start_time}&until=#{end_time}"
-          end
+          query += "/org"
         end
+        query += "/runs?from=#{start_time}&until=#{end_time}"
+        if rows
+          query += "&rows=#{rows}"
+        end
+        if status
+          query += "&status=#{status}"
+        end
+        if env
+          query += "&env=#{env}"
+        end
+        query
       end
 
       def history(query_string)
@@ -108,4 +118,3 @@ class Chef
     end
   end
 end
-
