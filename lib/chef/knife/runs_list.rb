@@ -84,7 +84,7 @@ class Chef
 
       private
 
-      def generate_query(start_time, end_time, node_name = nil, rows = nil, status = nil, env = nil)
+      def generate_query(start_time, end_time, node_name = nil, rows = nil, status = nil)
         query = '/reports'
         if node_name
           query += "/nodes/#{node_name}"
@@ -97,9 +97,6 @@ class Chef
         end
         if status
           query += "&status=#{status}"
-        end
-        if env
-          query += "&env=#{env}"
         end
         query
       end
