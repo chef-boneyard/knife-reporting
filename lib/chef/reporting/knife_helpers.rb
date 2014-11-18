@@ -53,8 +53,8 @@ class Chef
 
       def check_start_and_end_times_provided()
         if config[:start_time] && !config[:end_time]
-          ui.error("The start_time option was provided, but the end_time option was not. If one is provided, the other is required.")
-          exit 1
+          ui.info("The start_time option was provided, but the end_time option was not. Using today as end_time.")
+          config[:end_time] = Time.now.strftime('%m-%d-%Y')
         elsif config[:end_time] && !config[:start_time]
           ui.error("The end_time option was provided, but the start_time option was not. If one is provided, the other is required.")
           exit 1
