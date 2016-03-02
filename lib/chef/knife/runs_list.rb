@@ -67,7 +67,7 @@ class Chef
         :description => 'Filters by run status (success, failure, or aborted).'
 
       def run
-        @rest = Chef::REST.new(Chef::Config[:chef_server_url])
+        @rest = Chef::ServerAPI.new(Chef::Config[:chef_server_url])
 
         node_name = name_args[0]
 
@@ -102,7 +102,7 @@ class Chef
       end
 
       def history(query_string)
-        runs = @rest.get_rest(query_string, false,  HEADERS)
+        runs = @rest.get_rest(query_string,  HEADERS)
 
         runs["run_history"].map do |run|
           { :run_id => run["run_id"],

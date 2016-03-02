@@ -37,7 +37,7 @@ class Chef
       HEADERS = {'X-Ops-Reporting-Protocol-Version' => PROTOCOL_VERSION}
 
       def run
-        rest = Chef::REST.new(Chef::Config[:chef_server_url])
+        rest = Chef::ServerAPI.new(Chef::Config[:chef_server_url])
 
         run_id = name_args[0]
 
@@ -51,11 +51,11 @@ class Chef
 
         query_string = "reports/org/runs/#{run_id}"
 
-        runs = rest.get(query_string, false, HEADERS)
+        runs = rest.get(query_string, HEADERS)
 
         if runs['run_detail']['updated_res_count'] > runs['run_resources'].length
           all_query = "#{query_string}?start=0&rows=#{runs['run_detail']['updated_res_count']}"
-          runs = rest.get(all_query, false, HEADERS)
+          runs = rest.get(all_query, HEADERS)
         end
         output(runs)
       end
