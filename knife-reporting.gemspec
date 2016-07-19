@@ -2,7 +2,7 @@ $:.unshift(File.dirname(__FILE__) + '/lib')
 
 Gem::Specification.new do |s|
   s.name = "knife-reporting"
-  s.version = '0.4.0'
+  s.version = '0.5.0'
   s.platform = Gem::Platform::RUBY
   s.has_rdoc = false
   s.extra_rdoc_files = ["README.md", "LICENSE"]
