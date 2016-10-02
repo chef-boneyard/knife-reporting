@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 
-require 'chef/reporting/knife_helpers'
+require "chef/reporting/knife_helpers"
 
 class Chef
   class Knife
@@ -25,16 +25,16 @@ class Chef
         # While Ruby automatically includes some data & time functions in the
         # base class, more advanced data & time functions still required the
         # modules be loaded.
-        require 'time'
-        require 'date'
+        require "time"
+        require "date"
       end
 
       include Chef::Reporting::KnifeHelpers
 
       banner "knife runs show <run id>"
 
-      PROTOCOL_VERSION = '0.1.0'
-      HEADERS = {'X-Ops-Reporting-Protocol-Version' => PROTOCOL_VERSION}
+      PROTOCOL_VERSION = "0.1.0"
+      HEADERS = { "X-Ops-Reporting-Protocol-Version" => PROTOCOL_VERSION }
 
       def run
         rest = Chef::ServerAPI.new(Chef::Config[:chef_server_url])
@@ -53,7 +53,7 @@ class Chef
 
         runs = rest.get(query_string, HEADERS)
 
-        if runs['run_detail']['updated_res_count'] > runs['run_resources'].length
+        if runs["run_detail"]["updated_res_count"] > runs["run_resources"].length
           all_query = "#{query_string}?start=0&rows=#{runs['run_detail']['updated_res_count']}"
           runs = rest.get(all_query, HEADERS)
         end
@@ -62,4 +62,3 @@ class Chef
     end
   end
 end
-

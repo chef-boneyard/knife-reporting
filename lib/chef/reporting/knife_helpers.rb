@@ -54,7 +54,7 @@ class Chef
       def check_start_and_end_times_provided()
         if config[:start_time] && !config[:end_time]
           ui.info("The start_time option was provided, but the end_time option was not. Using today as end_time.")
-          config[:end_time] = Time.now.strftime('%m-%d-%Y')
+          config[:end_time] = Time.now.strftime("%m-%d-%Y")
         elsif config[:end_time] && !config[:start_time]
           ui.error("The end_time option was provided, but the start_time option was not. If one is provided, the other is required.")
           exit 1
@@ -74,8 +74,8 @@ class Chef
           # An error could potentially be thrown if the conversions don't work
           # This does work on windows - to_i on time even on windows still returns a unix timestamp
           # Verified on ruby 1.9.3 on a windows 2000 ami on aws
-          start_time = Time.parse(Date.strptime(config[:start_time], '%m-%d-%Y').to_s).to_i
-          end_time = Time.parse(Date.strptime(config[:end_time], '%m-%d-%Y').to_s).to_i
+          start_time = Time.parse(Date.strptime(config[:start_time], "%m-%d-%Y").to_s).to_i
+          end_time = Time.parse(Date.strptime(config[:end_time], "%m-%d-%Y").to_s).to_i
         end
 
         return start_time, end_time

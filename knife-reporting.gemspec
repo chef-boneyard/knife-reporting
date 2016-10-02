@@ -1,8 +1,8 @@
-$:.unshift(File.dirname(__FILE__) + '/lib')
+$:.unshift(File.dirname(__FILE__) + "/lib")
 
 Gem::Specification.new do |s|
   s.name = "knife-reporting"
-  s.version = '0.5.0'
+  s.version = "0.5.0"
   s.platform = Gem::Platform::RUBY
   s.has_rdoc = false
   s.extra_rdoc_files = ["README.md", "LICENSE"]
@@ -16,7 +16,6 @@ Gem::Specification.new do |s|
   s.required_ruby_version = ">= 2.2.2"
   s.add_dependency "mixlib-cli", "~> 1.5"
 
-  s.require_path = 'lib'
-  s.files = %w(LICENSE README.md Rakefile) + Dir.glob("{lib,spec}/**/*")
+  s.require_path = "lib"
+  s.files = %w{LICENSE README.md Rakefile} + Dir.glob("{lib,spec}/**/*")
 end
-
