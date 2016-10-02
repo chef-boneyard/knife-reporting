@@ -6,11 +6,11 @@ Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
   s.has_rdoc = false
   s.extra_rdoc_files = ["README.md", "LICENSE"]
-  s.summary = "Knife plugin for Opscode Reporting"
-  s.description = "Knife plugin for Opscode Reporting.  Adds two new commands 'knife runs show' and 'knife runs list'."
-  s.license = "Apache 2"
+  s.summary = "Knife plugin for Chef Reporting"
+  s.description = "Knife plugin for Chef Reporting. Adds two new commands 'knife runs show' and 'knife runs list'."
+  s.license = "Apache-2.0"
   s.author = "Chef Software, Inc."
-  s.email = "info@getchef.com"
+  s.email = "info@chef.io"
   s.homepage = "https://github.com/chef/knife-reporting"
 
   s.add_dependency "mixlib-cli", "~> 1.5"
