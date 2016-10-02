@@ -13,6 +13,7 @@ Gem::Specification.new do |s|
   s.email = "info@chef.io"
   s.homepage = "https://github.com/chef/knife-reporting"
 
+  s.required_ruby_version = ">= 2.2.2"
   s.add_dependency "mixlib-cli", "~> 1.5"
 
   s.require_path = 'lib'
