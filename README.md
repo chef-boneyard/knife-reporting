@@ -1,6 +1,6 @@
 # Knife Reporting
 
-A knife plugin for use with OpsCode Chef's reporting system.
+A knife plugin for use with Chef's reporting system.
 
 ## Commands
 There are two basic commands `knife runs list` and `knife runs show`
@@ -33,3 +33,25 @@ the result. This parameter is optional and defaults to 10.
 
 * `knife runs show bobsnode 30077269-59d0-4283-81f6-8d23cbed3a7a` - returns details
 about that specific node run
+
+## Contributing
+
+For information on contributing to this project see <https://github.com/chef/chef/blob/master/CONTRIBUTING.md>
+
+## License and Authors
+
+```text
+Copyright 2013-2016 Chef Software, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```
