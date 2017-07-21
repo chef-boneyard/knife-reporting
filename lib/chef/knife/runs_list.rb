@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 
-require 'chef/reporting/knife_helpers'
+require "chef/reporting/knife_helpers"
 
 class Chef
   class Knife
@@ -25,46 +25,46 @@ class Chef
         # While Ruby automatically includes some data & time functions in the
         # base class, more advanced data & time functions still required the
         # modules be loaded.
-        require 'time'
-        require 'date'
+        require "time"
+        require "date"
       end
 
       include Chef::Reporting::KnifeHelpers
 
       banner "knife runs list [<node name>]"
 
-      PROTOCOL_VERSION = '0.1.0'
-      HEADERS = {'X-Ops-Reporting-Protocol-Version' => PROTOCOL_VERSION}
+      PROTOCOL_VERSION = "0.1.0"
+      HEADERS = { "X-Ops-Reporting-Protocol-Version" => PROTOCOL_VERSION }
 
       option :start_time,
-        :long => '--starttime MM-DD-YYYY',
-        :short => '-s MM-DD-YYYY',
+        :long => "--starttime MM-DD-YYYY",
+        :short => "-s MM-DD-YYYY",
         :required => false,
-        :description => 'Find runs with a start time great than or equal to the date provided. If the -u option is provided unix timestamps can be given instead.'
+        :description => "Find runs with a start time great than or equal to the date provided. If the -u option is provided unix timestamps can be given instead."
 
       option :end_time,
-        :long => '--endtime MM-DD-YYYY',
-        :short => '-e MM-DD-YYYY',
+        :long => "--endtime MM-DD-YYYY",
+        :short => "-e MM-DD-YYYY",
         :required => false,
-        :description => 'Find runs with an end time less than or equal to the date provided. If the -u option is provided unix timestamps can be given instead.'
+        :description => "Find runs with an end time less than or equal to the date provided. If the -u option is provided unix timestamps can be given instead."
 
       option :unix_timestamps,
-        :long => '--unixtimestamps',
-        :short => '-u',
+        :long => "--unixtimestamps",
+        :short => "-u",
         :required => false,
         :boolean => true,
-        :description => 'Indicates start and end times are given as unix time stamps and not date formats.'
+        :description => "Indicates start and end times are given as unix time stamps and not date formats."
 
       option :rows,
-        :long => '--rows N',
-        :short => '-r N',
+        :long => "--rows N",
+        :short => "-r N",
         :required => false,
-        :description => 'Specifies the rows to be returned from the database. The default is 10.'
+        :description => "Specifies the rows to be returned from the database. The default is 10."
 
       option :status,
-        :long => '--status STATUS',
+        :long => "--status STATUS",
         :required => false,
-        :description => 'Filters by run status (success, failure, or aborted).'
+        :description => "Filters by run status (success, failure, or aborted)."
 
       def run
         @rest = Chef::ServerAPI.new(Chef::Config[:chef_server_url])
@@ -85,7 +85,7 @@ class Chef
       private
 
       def generate_query(start_time, end_time, node_name = nil, rows = nil, status = nil)
-        query = '/reports'
+        query = "/reports"
         if node_name
           query += "/nodes/#{node_name}"
         else
@@ -102,7 +102,7 @@ class Chef
       end
 
       def history(query_string)
-        runs = @rest.get_rest(query_string,  HEADERS)
+        runs = @rest.get_rest(query_string, HEADERS)
 
         runs["run_history"].map do |run|
           { :run_id => run["run_id"],
