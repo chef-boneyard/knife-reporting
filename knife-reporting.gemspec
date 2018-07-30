@@ -2,7 +2,7 @@ $:.unshift(File.dirname(__FILE__) + "/lib")
 
 Gem::Specification.new do |s|
   s.name = "knife-reporting"
-  s.version = "0.6.0"
+  s.version = "0.5.0"
   s.extra_rdoc_files = ["README.md", "LICENSE"]
   s.summary = "Knife plugin for Chef Reporting"
   s.description = "Knife plugin for Chef Reporting. Adds two new commands 'knife runs show' and 'knife runs list'."

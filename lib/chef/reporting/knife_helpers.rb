@@ -28,30 +28,30 @@ class Chef
 
       def uuid?(run_id)
         if run_id =~ /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/
-          return false
+          false
         else
-          return true
+          true
         end
       end
 
-      def apply_time_args()
+      def apply_time_args
         if config[:start_time] && config[:end_time]
           start_time, end_time = convert_to_unix_timestamps()
         else
           start_time, end_time = last_24hours_time_window()
         end
 
-        return start_time, end_time
+        [start_time, end_time]
       end
 
-      def last_24hours_time_window()
+      def last_24hours_time_window
         # Time is calculated as a unix timestamp
         end_time = Time.now.to_i
         start_time = end_time - SECONDS_IN_24HOURS
-        return start_time, end_time
+        [start_time, end_time]
       end
 
-      def check_start_and_end_times_provided()
+      def check_start_and_end_times_provided
         if config[:start_time] && !config[:end_time]
           ui.info("The start_time option was provided, but the end_time option was not. Using today as end_time.")
           config[:end_time] = Time.now.strftime("%m-%d-%Y")
@@ -61,7 +61,7 @@ class Chef
         end
       end
 
-      def convert_to_unix_timestamps()
+      def convert_to_unix_timestamps
         if config[:unix_timestamps]
           start_time = config[:start_time].to_i
           end_time = config[:end_time].to_i
@@ -78,7 +78,7 @@ class Chef
           end_time = Time.parse(Date.strptime(config[:end_time], "%m-%d-%Y").to_s).to_i
         end
 
-        return start_time, end_time
+        [start_time, end_time]
       end
 
       def check_3month_window(start_time, end_time)
