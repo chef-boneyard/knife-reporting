@@ -69,15 +69,17 @@ class Chef
       def run
         @rest = Chef::ServerAPI.new(Chef::Config[:chef_server_url])
 
-        node_name = name_args[0]
-
         check_start_and_end_times_provided()
         start_time, end_time = apply_time_args()
         check_3month_window(start_time, end_time)
 
-        query_string = generate_query(start_time, end_time, node_name, config[:rows],
-                                      config[:status])
-        runs = history(query_string)
+        runs = []
+
+        name_args.each do |node_name|
+          query_string = generate_query(start_time, end_time, node_name, config[:rows],
+                                        config[:status])
+          runs.push(history(query_string))
+        end
 
         output(runs)
       end

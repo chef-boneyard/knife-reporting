@@ -39,26 +39,32 @@ class Chef
       def run
         rest = Chef::ServerAPI.new(Chef::Config[:chef_server_url])
 
-        run_id = name_args[0]
+        runs = []
 
-        if run_id.nil?
-          show_usage
-          exit 1
-        elsif uuid?(run_id)
-          puts "Run ID should be a Chef Client Run ID, e.g: 11111111-1111-1111-1111-111111111111"
-          exit 1
-        end
+        name_args.each do |run_id|
 
-        query_string = "reports/org/runs/#{run_id}"
+          if run_id.nil?
+            show_usage
+            exit 1
+          elsif uuid?(run_id)
+            puts "Run ID should be a Chef Client Run ID, e.g: 11111111-1111-1111-1111-111111111111"
+            exit 1
+          end
 
-        runs = rest.get(query_string, HEADERS)
+          query_string = "reports/org/runs/#{run_id}"
 
-        if runs["run_detail"]["updated_res_count"] > runs["run_resources"].length
-          all_query = "#{query_string}?start=0&rows=#{runs['run_detail']['updated_res_count']}"
-          runs = rest.get(all_query, HEADERS)
+          run = rest.get(query_string, HEADERS)
+
+          if run['run_detail']['updated_res_count'] > run['run_resources'].length
+            all_query = "#{query_string}?start=0&rows=#{run['run_detail']['updated_res_count']}"
+            run = rest.get(all_query, HEADERS)
+          end
+
+          runs.push(run)
         end
         output(runs)
       end
     end
   end
 end
+
