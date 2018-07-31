@@ -55,7 +55,7 @@ class Chef
 
           run = rest.get(query_string, HEADERS)
 
-          if run['run_detail']['updated_res_count'] > run['run_resources'].length
+          if run["run_detail"]["updated_res_count"] > run["run_resources"].length
             all_query = "#{query_string}?start=0&rows=#{run['run_detail']['updated_res_count']}"
             run = rest.get(all_query, HEADERS)
           end
@@ -67,4 +67,3 @@ class Chef
     end
   end
 end
-
